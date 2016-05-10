@@ -4,12 +4,13 @@
 
 # File
 *.pyc
+.idea/*
 
 # Directory
 build
 dist
 zapi.egg-info
-.idea/
+.idea
 
 # =========================
 # Windows image file caches

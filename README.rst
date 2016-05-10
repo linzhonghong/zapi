@@ -1,11 +1,11 @@
 Zapi: An simple lightweight web framework
 =========================================
 
-.. image:: https://img.shields.io/pypi/v/requests.svg
-    :target: https://pypi.python.org/pypi/requests
+.. image:: https://img.shields.io/pypi/v/zapi.svg
+    :target: https://pypi.python.org/pypi/zapi
 
-.. image:: https://img.shields.io/pypi/dm/requests.svg
-        :target: https://pypi.python.org/pypi/requests
+.. image:: https://img.shields.io/pypi/dm/zapi.svg
+        :target: https://pypi.python.org/pypi/zapi
 
 Zapi is an Application Development Framework - a library - for people who build http api service using Python,
 without the need for manual labor. There's no need to manually add a class or function, binding to a url path.
