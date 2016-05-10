@@ -26,7 +26,7 @@ To install Zapi, simply:
 Documentation
 -------------
 
-Fantastic documentation is available at http://docs.python-requests.org/, coming soon.
+Fantastic documentation is available at http://docs.python-zapi.org/, coming soon.
 
 
 How to Contribute
