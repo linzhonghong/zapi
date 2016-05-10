@@ -1,13 +1,23 @@
 from setuptools import setup, find_packages
-from datetime import datetime
 import os
+import re
+from codecs import open
 
 GITHUB_ACCOUNT = "linzhonghong" # your GitHub account name
 RELEASE_TAG = "2016-05-10" # the GitHub release tag
 NAME = "zapi" # name of your package
 
-VERSION = __import__(NAME).__version__
+with open('zapi/__init__.py', 'r') as fd:
+    VERSION = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        fd.read(), re.MULTILINE).group(1)
+
+if not VERSION:
+    raise RuntimeError('Cannot find version information')
+
 PACKAGES = [NAME] + ["%s.%s" % (NAME, i) for i in find_packages(NAME)]
+PACKAGE_DATA = {
+    "": ["*.txt", "*.rst"],
+}
 SHORT_DESCRIPTION = "An easy lightweight web framework by python." # GitHub Short Description
 AUTHOR = "Zhonghong Lin"
 AUTHOR_EMAIL = "1529909253@qq.com"
@@ -48,6 +58,8 @@ with open("requirements.txt", "rb") as f:
 setup(
     name=NAME,
     packages=PACKAGES,
+    include_package_data = True,
+    package_data  = PACKAGE_DATA,
     version=VERSION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
