@@ -9,6 +9,7 @@
 build
 dist
 zapi.egg-info
+.idea
 
 # =========================
 # Windows image file caches
