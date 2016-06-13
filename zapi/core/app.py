@@ -1,11 +1,15 @@
 __author__ = 'zhonghong'
 
+import os
+import imp
+import sys
 import json
 
 # Python's bundled WSGI server
 from wsgiref.simple_server import make_server
 
 from zapi.core.common import Common
+from zapi.core.logger import Logger
 from zapi.core.route import Router
 
 class App(Common):
@@ -14,6 +18,26 @@ class App(Common):
         super(App, self).__init__(app_path)
         self.app_path = app_path
         self.headers = []
+        self.config = self._get_config
+        self._init_logger()
+        self._add_extra_mod()
+
+    def _init_logger(self):
+        if 'logfile' not in self.config.log:
+            self.config.log['logfile'] = os.path.join(self.app_path, 'zapi.log')
+        if 'loglevel' not in self.config.log:
+            self.config.log['loglevel'] = 'INFO'
+        self.log = Logger(**self.config.log)
+
+    def _add_extra_mod(self):
+        if os.path.exists(os.path.join(self.app_path, 'pkg')):
+            try:
+                fn_, path, desc = imp.find_module('pkg', [self.app_path])
+                mod = imp.load_module('pkg', fn_, path, desc)
+            except ImportError as ex:
+                self.log.error(ex.message)
+            else:
+                sys.modules['zpkg'] = mod
 
     def add_header(self, key, value):
         self.headers.append((key.capitalize(), value))
@@ -47,7 +71,9 @@ class App(Common):
             port, # A port number where to wait for the request
             self.application # The application object name, in this case a function
         )
-        print 'Serving on {host}:{port}'.format(host=host, port=port)
+        start_info = 'Serving on {host}:{port}'.format(host=host, port=port)
+        print start_info
+        self.log.info(start_info)
 
         # Serve forever
         httpd.serve_forever()

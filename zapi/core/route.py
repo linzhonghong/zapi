@@ -3,6 +3,7 @@ __author__ = 'zhonghong'
 import os
 import re
 import logging
+import traceback
 
 
 from zapi.core.utils import load_module, capitalize_name
@@ -57,6 +58,8 @@ class Router(object):
 
         try:
             ret = ctrl_method()
-            return "200 OK", ret
         except Exception as e:
-            return  "500 Internal Server Error", "Exception happened:%s." % e
+            log.error(traceback.format_exc())
+            return  "500 Internal Server Error", "Exception happened:%s." % e.message
+
+        return "200 OK", ret

@@ -5,6 +5,8 @@ import re
 import imp
 import string
 import logging
+from functools import wraps
+from UserList import UserList
 
 log = logging.getLogger(__name__)
 
@@ -94,6 +96,39 @@ def load_module(mod_dir, check_callable=True):
 
     return objects
 
+
+class ExtraList(UserList):
+    def __init__(self, sequence):
+        assert isinstance(sequence, (list, tuple))
+        self.seq = sequence
+        super(ExtraList, self).__init__(sequence)
+
+    @property
+    def first(self):
+        if self.length == 0:
+            return None
+        return self.seq[0]
+
+    @property
+    def last(self):
+        if self.length == 0:
+            return None
+        return self.seq[-1]
+
+    @property
+    def length(self):
+        return len(self.seq)
+
+
+def decorate_list(f):
+    @wraps(f)
+    def _func(*args, **kwargs):
+        result = f(*args, **kwargs)
+        if not isinstance(result, (list, tuple)):
+            result = []
+        return ExtraList(result)
+
+    return _func
 
 
 # print load_module('E:/python_project/tmp-dev/codesnippet/zapi/application/config', False)

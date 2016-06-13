@@ -29,3 +29,6 @@ class Loader(Common):
         if alias:
             setattr(self.obj, alias, model_instance)
 
+    def config(self):
+        setattr(self.obj, 'config', self._get_config)
+

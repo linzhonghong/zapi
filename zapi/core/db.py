@@ -12,8 +12,7 @@ from zapi.core.utils import FlyweightMixin
 
 
 class Pool(FlyweightMixin):
-    def __init__(self, opts, **kwargs):
-        kwargs.update(opts)
+    def __init__(self, **kwargs):
         self.pool = PooledDB(pymysql, **kwargs)
 
 
@@ -33,7 +32,7 @@ class Base(object):
     only_sql = False
 
     def __init__(self, opts, cursorclass=pymysql.cursors.Cursor, autocommit=False):
-        self.conn = Pool(opts, cursorclass=cursorclass, autocommit=autocommit).pool.connection()
+        self.conn = Pool(cursorclass=cursorclass, autocommit=autocommit, **opts).pool.connection()
         self.queries = list()
         self.save_queries = True
 

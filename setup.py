@@ -1,7 +1,15 @@
-from setuptools import setup, find_packages
 import os
+import sys
 import re
+
 from codecs import open
+
+from setuptools import setup, find_packages
+
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    sys.exit()
 
 GITHUB_ACCOUNT = "linzhonghong" # your GitHub account name
 RELEASE_TAG = "2016-05-10" # the GitHub release tag
